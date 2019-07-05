@@ -41,7 +41,7 @@
 
 </form>
 <form>
-    <p><input type="button" value=" Goods " onClick='location.href="/all_products"'></p>
+    <p><input type="button" value="Goods" onClick='location.href="/all_products"'></p>
 </form>
 </body>
 </html>
