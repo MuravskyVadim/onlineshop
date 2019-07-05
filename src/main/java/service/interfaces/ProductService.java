@@ -1,11 +1,11 @@
-package service;
+package service.interfaces;
 
 import model.Product;
 
 import java.util.List;
 
 public interface ProductService {
-    void addProduct(Product product);
+    void addProduct(String name, String description, Double price);
 
     List<Product> getAllProducts();
 }

@@ -1,8 +1,7 @@
 package controller;
 
-import model.User;
-import service.UserService;
-import service.impl.UserServiceImpl;
+import factory.UserServiceFactory;
+import service.interfaces.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/register")
 public class UserRegistrationServlet extends HttpServlet {
-    private final UserService userService = new UserServiceImpl();
+    private final UserService userService = UserServiceFactory.getUserService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -25,9 +24,9 @@ public class UserRegistrationServlet extends HttpServlet {
 
         if (!email.isEmpty() && !password.isEmpty() && !repeatPassword.isEmpty()) {
             if (password.equals(repeatPassword)) {
-                User user = new User(1L, email, password);
-                userService.addUser(user);
+                userService.addUser(email, password);
                 request.setAttribute("message", "You registered successful!");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
             } else {
                 request.setAttribute("message", "Passwords not equals! Try again...");
                 request.getRequestDispatcher("register.jsp").forward(request, response);
@@ -36,6 +35,8 @@ public class UserRegistrationServlet extends HttpServlet {
             request.setAttribute("message", "Fields must not be empty!!!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
         }
+
+        System.out.println("Количество пользователей: " + userService.getAllUsers().size());
     }
 
     @Override

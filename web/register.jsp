@@ -17,7 +17,7 @@
         <p>E-mail: <input type="email" name="email"></p>
         <p>Password: <input type="password" name="password"></p>
         <p>Repeat: <input type="password" name="repeatPassword"></p>
-        <P><button type="submit">Register </button></P>
+        <p><button type="submit">Register</button></p>
     </form>
 </div>
 </body>

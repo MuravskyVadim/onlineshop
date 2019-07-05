@@ -1,21 +1,22 @@
 package service.impl;
 
+import dao.intrfaces.UserDao;
+import dao.impl.UserDaoImpl;
 import model.User;
-import service.UserService;
+import service.interfaces.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private final List<User> users = new ArrayList<>();
+    private final UserDao userDao = new UserDaoImpl();
 
     @Override
-    public void addUser(User user) {
-        users.add(user);
+    public void addUser(String email, String password) {
+        userDao.createUser(email, password);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return users;
+        return userDao.getAllUsers();
     }
 }
