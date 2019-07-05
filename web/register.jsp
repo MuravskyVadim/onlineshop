@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.io.Writer" %><%--
   Created by IntelliJ IDEA.
   User: User
   Date: 04.07.2019
@@ -12,7 +12,16 @@
 </head>
 <body>
 <div align="center">
-    <h4>${message}</h4>
+    <%
+        Writer writer = response.getWriter();
+        writer.write("<h4><center>");
+        String message = (String) request.getAttribute("message");
+        if (message != null) {
+            writer.write(message);
+        }
+        writer.write("</h4></center>");
+    %>
+
     <form action="register" method="POST">
         <p>E-mail: <input type="email" name="email" value="
             <%=
