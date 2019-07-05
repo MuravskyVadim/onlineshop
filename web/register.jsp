@@ -14,7 +14,7 @@
 <div align="center">
     <h4>${message}</h4>
     <form action="register" method="POST">
-        <p>E-mail: <input type="email" name="email"></p>
+        <p>E-mail: <input type="email" name="email" value="${param.email}"></p>
         <p>Password: <input type="password" name="password"></p>
         <p>Repeat: <input type="password" name="repeatPassword"></p>
         <p><button type="submit">Register</button></p>

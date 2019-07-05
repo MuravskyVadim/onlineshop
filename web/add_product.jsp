@@ -11,6 +11,7 @@
     <title>Add product</title>
 </head>
 <body>
+<div style="text-align: center;">
 ${message}
 <form action="add_product" method="POST">
     <p>Name: <input type="text" name="name"></p>
@@ -20,5 +21,6 @@ ${message}
         <button type="submit">Submit</button>
     </p>
 </form>
+</div>
 </body>
 </html>

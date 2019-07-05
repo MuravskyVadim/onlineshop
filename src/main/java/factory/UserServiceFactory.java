@@ -8,12 +8,10 @@ import java.util.Objects;
 public class UserServiceFactory {
     private static UserService instance;
 
-    private UserServiceFactory() {}
+    private UserServiceFactory() {
+    }
 
     public static UserService getUserService() {
-        if (Objects.isNull(instance)) {
-            instance = new UserServiceImpl();
-        }
-        return instance;
+        return (Objects.isNull(instance)) ? instance = new UserServiceImpl() : instance;
     }
 }

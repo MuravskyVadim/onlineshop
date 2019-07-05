@@ -8,12 +8,11 @@ import java.util.Objects;
 public class ProductServiceFactory {
     private static ProductService instance;
 
-    private ProductServiceFactory() {}
+    private ProductServiceFactory() {
+    }
 
     public static ProductService getProductServiceImpl() {
-        if(Objects.isNull(instance)){
-            instance = new ProductServiceImp();
-        }
-        return instance;
+
+        return (Objects.isNull(instance)) ? instance = new ProductServiceImp() : instance;
     }
 }

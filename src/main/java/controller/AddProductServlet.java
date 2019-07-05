@@ -25,7 +25,7 @@ public class AddProductServlet extends HttpServlet {
 
         if (Objects.nonNull(name) && price != 0) {
             productService.addProduct(name, description, price);
-            request.setAttribute("message", "Item added!");
+            response.sendRedirect("/all_products");
         } else {
             request.setAttribute("message", "Fields must not be empty!!!");
             request.getRequestDispatcher("add_product.jsp").forward(request, response);

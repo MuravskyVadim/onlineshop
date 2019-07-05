@@ -25,8 +25,7 @@ public class UserRegistrationServlet extends HttpServlet {
         if (!email.isEmpty() && !password.isEmpty() && !repeatPassword.isEmpty()) {
             if (password.equals(repeatPassword)) {
                 userService.addUser(email, password);
-                request.setAttribute("message", "You registered successful!");
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                response.sendRedirect("/users");
             } else {
                 request.setAttribute("message", "Passwords not equals! Try again...");
                 request.getRequestDispatcher("register.jsp").forward(request, response);
@@ -35,7 +34,6 @@ public class UserRegistrationServlet extends HttpServlet {
             request.setAttribute("message", "Fields must not be empty!!!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
         }
-
         System.out.println("Количество пользователей: " + userService.getAllUsers().size());
     }
 
