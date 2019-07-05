@@ -14,28 +14,34 @@
     <title>Users</title>
 </head>
 <body>
-<form>
-    <%
-        PrintWriter printWriter = response.getWriter();
-        printWriter.write("<center>");
-        printWriter.write("<h2> Список пользователей </h2>");
-        printWriter.write("<table border=\"1\">\n" +
-                "    <tr>\n" +
-                "        <th>Id</th>\n" +
-                "        <th>Email</th>\n" +
-                "        <th>Password</th>\n" +
-                "    </tr>");
+<form >
+    <table>
+        <%
+            PrintWriter printWriter = response.getWriter();
+            printWriter.write("<center>");
+            printWriter.write("<h2> Список пользователей </h2>");
+            printWriter.write("<table border=\"1\">\n" +
+                    "    <tr>\n" +
+                    "        <th>Id</th>\n" +
+                    "        <th>Email</th>\n" +
+                    "        <th>Password</th>\n" +
+                    "    </tr>");
 
-        List<User> allUsers = (List<User>) request.getAttribute("users");
-        for (User user : allUsers) {
-            printWriter.write("<tr>");
-            printWriter.write("<td>" + user.getId() + "</td>");
-            printWriter.write("<td>" + user.getEmail() + "</td>");
-            printWriter.write("<td>" + user.getPassword() + "</td>");
-            printWriter.write("</tr>");
-        }
-        printWriter.write("</center>");
-    %>
+            List<User> allUsers = (List<User>) request.getAttribute("users");
+            for (User user : allUsers) {
+                printWriter.write("<tr>");
+                printWriter.write("<td>" + user.getId() + "</td>");
+                printWriter.write("<td>" + user.getEmail() + "</td>");
+                printWriter.write("<td>" + user.getPassword() + "</td>");
+                printWriter.write("</tr>");
+            }
+            printWriter.write("</center>");
+        %>
+    </table>
+
+</form>
+<form>
+    <p><input type="button" value=" Goods " onClick='location.href="/all_products"'></p>
 </form>
 </body>
 </html>
