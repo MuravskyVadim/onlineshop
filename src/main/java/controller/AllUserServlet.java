@@ -1,8 +1,8 @@
 package controller;
 
+import factory.UserServiceFactory;
 import model.User;
 import service.interfaces.UserService;
-import service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @WebServlet(value = "/users")
 public class AllUserServlet extends HttpServlet {
-    private UserService userService = new UserServiceImpl();
+    private UserService userService = UserServiceFactory.getUserService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

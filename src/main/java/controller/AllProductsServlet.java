@@ -1,8 +1,8 @@
 package controller;
 
+import factory.ProductServiceFactory;
 import model.Product;
 import service.interfaces.ProductService;
-import service.impl.ProductServiceImp;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @WebServlet(value = "/all_products")
 public class AllProductsServlet extends HttpServlet {
-    private ProductService productService = new ProductServiceImp();
+    private ProductService productService = ProductServiceFactory.getProductServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
