@@ -41,7 +41,7 @@
 </table>
 <form>
     <p><input type="button" class="inline" value=" Users " onClick='location.href="/users"'>
-    <input type="button" class="inline" value=" Add item " onClick='location.href="/add_product"'></p>
+    <input type="button" class="inline" value=" Add item  " onClick='location.href="/add_product"'></p>
 </form>
 </body>
 </html>

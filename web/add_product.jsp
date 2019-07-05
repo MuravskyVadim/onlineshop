@@ -18,7 +18,7 @@ ${message}
     <p>Description: <input type="text" name="description"></p>
     <p>Price: <input type="number" name="price" value="0" min="0" step="0.01"></p>
     <p>
-        <button type="submit">Submit</button>
+        <button type=" submit ">Submit</button>
     </p>
 </form>
 </div>
