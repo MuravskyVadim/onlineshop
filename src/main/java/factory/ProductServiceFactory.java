@@ -6,6 +6,7 @@ import service.impl.ProductServiceImp;
 import java.util.Objects;
 
 public class ProductServiceFactory {
+
     private static ProductService instance;
 
     private ProductServiceFactory() {

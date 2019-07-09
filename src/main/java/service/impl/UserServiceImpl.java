@@ -1,14 +1,15 @@
 package service.impl;
 
 import dao.intrfaces.UserDao;
-import dao.impl.UserDaoImpl;
+import factory.UserDaoFactory;
 import model.User;
 import service.interfaces.UserService;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private final UserDao userDao = new UserDaoImpl();
+
+    private static final UserDao userDao = UserDaoFactory.getUserDaoImpl();
 
     @Override
     public void addUser(String email, String password) {

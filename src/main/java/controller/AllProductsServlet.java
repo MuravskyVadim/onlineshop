@@ -14,7 +14,9 @@ import java.util.List;
 
 @WebServlet(value = "/all_products")
 public class AllProductsServlet extends HttpServlet {
-    private ProductService productService = ProductServiceFactory.getProductServiceImpl();
+
+    private static final ProductService productService =
+            ProductServiceFactory.getProductServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

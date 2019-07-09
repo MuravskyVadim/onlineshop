@@ -6,6 +6,7 @@ import service.impl.UserServiceImpl;
 import java.util.Objects;
 
 public class UserServiceFactory {
+
     private static UserService instance;
 
     private UserServiceFactory() {

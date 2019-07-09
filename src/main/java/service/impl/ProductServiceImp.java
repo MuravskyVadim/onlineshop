@@ -1,14 +1,15 @@
 package service.impl;
 
 import dao.intrfaces.ProductDao;
-import dao.impl.ProductDaoImpl;
+import factory.ProductDaoFactory;
 import model.Product;
 import service.interfaces.ProductService;
 
 import java.util.List;
 
 public class ProductServiceImp implements ProductService {
-    private final ProductDao productDao = new ProductDaoImpl();
+
+    private static final ProductDao productDao = ProductDaoFactory.getProductDaoImpl();
 
     @Override
     public void addProduct(String name, String description, Double price) {

@@ -12,7 +12,8 @@ import java.io.IOException;
 
 @WebServlet(value = "/register")
 public class UserRegistrationServlet extends HttpServlet {
-    private final UserService userService = UserServiceFactory.getUserService();
+
+    private static final UserService userService = UserServiceFactory.getUserService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -34,7 +35,6 @@ public class UserRegistrationServlet extends HttpServlet {
             request.setAttribute("message", "Fields must not be empty!!!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
         }
-        System.out.println("Количество пользователей: " + userService.getAllUsers().size());
     }
 
     @Override

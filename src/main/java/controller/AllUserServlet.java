@@ -14,12 +14,18 @@ import java.util.List;
 
 @WebServlet(value = "/users")
 public class AllUserServlet extends HttpServlet {
-    private UserService userService = UserServiceFactory.getUserService();
+
+    private static final UserService userService = UserServiceFactory.getUserService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<User> allUsers = userService.getAllUsers();
+
+        if(allUsers.size() == 0){
+            userService.addUser("admin@example.com", "12345");
+        }
+
         request.setAttribute("users", allUsers);
         request.getRequestDispatcher("users.jsp").forward(request, response);
     }

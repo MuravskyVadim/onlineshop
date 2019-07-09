@@ -33,6 +33,8 @@
                 printWriter.write("<td>" + user.getId() + "</td>");
                 printWriter.write("<td>" + user.getEmail() + "</td>");
                 printWriter.write("<td>" + user.getPassword() + "</td>");
+                printWriter.write("<td><input type=\"button\" value=\"Edit\" onClick=\'location.href=\"/register\"\'></td>");
+                printWriter.write("<td><input type=\"button\" value=\"Delete\"'></td>");
                 printWriter.write("</tr>");
             }
             printWriter.write("</center>");

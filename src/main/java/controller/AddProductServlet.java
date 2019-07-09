@@ -13,7 +13,8 @@ import java.util.Objects;
 
 @WebServlet(value = "/add_product")
 public class AddProductServlet extends HttpServlet {
-    private final ProductService productService = ProductServiceFactory.getProductServiceImpl();
+
+    private static final ProductService productService = ProductServiceFactory.getProductServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
