@@ -1,7 +1,7 @@
 package factory;
 
 import dao.impl.ProductDaoImpl;
-import dao.intrfaces.ProductDao;
+import dao.interfaces.ProductDao;
 
 import java.util.Objects;
 

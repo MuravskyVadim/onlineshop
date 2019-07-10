@@ -9,41 +9,35 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Users</title>
 </head>
 <body>
-<form >
-    <table>
-        <%
-            PrintWriter printWriter = response.getWriter();
-            printWriter.write("<center>");
-            printWriter.write("<h2> Список пользователей </h2>");
-            printWriter.write("<table border=\"1\">\n" +
-                    "    <tr>\n" +
-                    "        <th>Id</th>\n" +
-                    "        <th>Email</th>\n" +
-                    "        <th>Password</th>\n" +
-                    "    </tr>");
-
-            List<User> allUsers = (List<User>) request.getAttribute("users");
-            for (User user : allUsers) {
-                printWriter.write("<tr>");
-                printWriter.write("<td>" + user.getId() + "</td>");
-                printWriter.write("<td>" + user.getEmail() + "</td>");
-                printWriter.write("<td>" + user.getPassword() + "</td>");
-                printWriter.write("<td><input type=\"button\" value=\"Edit\" onClick=\'location.href=\"/register\"\'></td>");
-                printWriter.write("<td><input type=\"button\" value=\"Delete\"'></td>");
-                printWriter.write("</tr>");
-            }
-            printWriter.write("</center>");
-        %>
-    </table>
-
-</form>
-<form>
-    <p><input type="button" value="Goods" onClick='location.href="/all_products"'></p>
-</form>
+<div align="center">
+    <form action="/users" method="post">
+        <table align="top" border="1" cellpadding="4" cellspacing="0">
+            <caption>Users list</caption>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Password</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <c:forEach items="${users}" var="user">
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.email}</td>
+                    <td>${user.password}</td>
+                    <td><a href="/user?edit=${user.id}" name="edit">edit</a></td>
+                    <td><button type="submit" name="delete" value="${user.id}">delete</button></td>
+                </tr>
+            </c:forEach>
+        </table>
+    </form>
+    <p><input type="button" value="Goods" onClick='location.href="/products"'></p>
+</div>
 </body>
 </html>

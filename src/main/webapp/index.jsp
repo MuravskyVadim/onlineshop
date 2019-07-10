@@ -14,7 +14,7 @@
   <div style="text-align: center;">
     <p>Welcome! You can register if you want!</p>
     <a href="add_product">Add product</a>
-    <a href="all_products">All products</a>
+    <a href="products">All products</a>
     <a href="users">All users</a>
     <a href="register">Register</a>
   </div>

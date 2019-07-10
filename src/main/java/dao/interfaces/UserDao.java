@@ -1,4 +1,4 @@
-package dao.intrfaces;
+package dao.interfaces;
 
 import model.User;
 
@@ -10,5 +10,5 @@ public interface UserDao {
 
     List<User> getAllUsers();
 
-    void removeById(Long id);
+    User getUserById(Long id);
 }

@@ -1,6 +1,6 @@
 package service.impl;
 
-import dao.intrfaces.UserDao;
+import dao.interfaces.UserDao;
 import factory.UserDaoFactory;
 import model.User;
 import service.interfaces.UserService;
@@ -19,5 +19,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userDao.getUserById(id);
     }
 }

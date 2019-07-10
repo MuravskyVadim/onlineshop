@@ -24,15 +24,20 @@ public class UserRegistrationServlet extends HttpServlet {
         String repeatPassword = request.getParameter("repeatPassword");
 
         if (!email.isEmpty() && !password.isEmpty() && !repeatPassword.isEmpty()) {
-            if (password.equals(repeatPassword)) {
-                userService.addUser(email, password);
-                response.sendRedirect("/users");
+            if (!isUserExist(email)) {
+                if (password.equals(repeatPassword)) {
+                    userService.addUser(email, password);
+                    response.sendRedirect("/users");
+                } else {
+                    request.setAttribute("message", "Passwords not equals! Try again...");
+                    request.getRequestDispatcher("register.jsp").forward(request, response);
+                }
             } else {
-                request.setAttribute("message", "Passwords not equals! Try again...");
+                request.setAttribute("message", "User " + email + " is already registered.");
                 request.getRequestDispatcher("register.jsp").forward(request, response);
             }
         } else {
-            request.setAttribute("message", "Fields must not be empty!!!");
+            request.setAttribute("message", "All fields must be filled!!!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
         }
     }
@@ -41,5 +46,11 @@ public class UserRegistrationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("register.jsp").forward(request, response);
+    }
+
+    private boolean isUserExist(String email) {
+        return userService.getAllUsers()
+                .stream()
+                .anyMatch(x -> x.getEmail().equals(email));
     }
 }

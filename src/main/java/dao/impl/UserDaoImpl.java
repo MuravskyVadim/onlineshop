@@ -2,7 +2,7 @@ package dao.impl;
 
 import org.apache.log4j.Logger;
 import storage.Storage;
-import dao.intrfaces.UserDao;
+import dao.interfaces.UserDao;
 import model.User;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class UserDaoImpl implements UserDao {
         if (Objects.nonNull(email) || Objects.nonNull(password)) {
             User user = new User(UserIdGenerator.getId(), email, password);
             Storage.userList.add(user);
-            logger.info("User " + user + " added to db");
+            logger.info(user + " added to db");
         } else {
             throw new NoSuchElementException();
         }
@@ -30,13 +30,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void removeById(Long id) {
-        List<User> allUsers = Storage.userList;
-        for (User user : allUsers) {
-            if (user.getId().equals(id)) {
-                allUsers.remove(user);
-                break;
-            }
-        }
+    public User getUserById(Long id){
+        return Storage.userList
+                .stream()
+                .filter(user -> user.getId().equals(id))
+                .findAny()
+                .get();
     }
 }

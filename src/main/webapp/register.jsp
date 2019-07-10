@@ -12,24 +12,20 @@
 </head>
 <body>
 <div align="center">
-    <%
-        Writer writer = response.getWriter();
-        writer.write("<h4><center>");
-        String message = (String) request.getAttribute("message");
-        if (message != null) {
-            writer.write(message);
-        }
-        writer.write("</h4></center>");
-    %>
-
+<%--    <%--%>
+<%--        Writer writer = response.getWriter();--%>
+<%--        writer.write("<h4><center>");--%>
+<%--        String message = (String) request.getAttribute("message");--%>
+<%--        if (message != null) {--%>
+<%--            writer.write(message);--%>
+<%--        }--%>
+<%--        writer.write("</h4></center>");--%>
+<%--    %>--%>
+    ${message}
     <form action="/register" method="POST">
-        <p>E-mail: <input type="email" name="email" value="
-            <%=
-                request.getParameter("email") != null ? request.getParameter("email") : ""
-            %>">
-        </p>
-        <p>Password: <input type="password" name="password"></p>
-        <p>Repeat: <input type="password" name="repeatPassword"></p>
+        <p>E-mail:<br><input type="email" name="email" value="${email}"></p>
+        <p>Password:<br><input type="password" name="password"></p>
+        <p>Repeat password:<br><input type="password" name="repeatPassword"></p>
         <p><button type="submit">Register</button></p>
     </form>
 </div>

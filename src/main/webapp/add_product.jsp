@@ -6,27 +6,29 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Add product</title>
 </head>
 <body>
 <div style="text-align: center;">
-    <%
-        Writer writer = response.getWriter();
-        writer.write("<h4><center>");
-        String message = (String) request.getAttribute("message");
-        if (message != null) {
-            writer.write(message);
-        }
-        writer.write("</h4></center>");
-    %>
-    <form action="add_product" method="POST">
-        <p>Name: <input type="text" name="name"></p>
-        <p>Description: <input type="text" name="description"></p>
-        <p>Price: <input type="number" name="price" value="0" min="0" step="0.01"></p>
+    ${message}
+    <form action="/add_product" method="post">
         <p>
-            <button type="submit">Submit</button>
+            <label for="name">Name:</label><br/>
+            <input id="name" name="name" value=""/>
+        </p>
+        <p>
+            <label for="description">Description:</label><br/>
+            <input type="description" name="description"/>
+        </p>
+        <p>
+            <label for="price">Price:</label><br/>
+            <input type="number" name="price" value="0" min="0" step="0.01"/>
+        </p>
+        <p>
+            <button type="submit" name="add">add</button>
         </p>
     </form>
 </div>

@@ -1,6 +1,6 @@
 package service.impl;
 
-import dao.intrfaces.ProductDao;
+import dao.interfaces.ProductDao;
 import factory.ProductDaoFactory;
 import model.Product;
 import service.interfaces.ProductService;
@@ -19,5 +19,10 @@ public class ProductServiceImp implements ProductService {
     @Override
     public List<Product> getAllProducts() {
         return productDao.getAllProducts();
+    }
+
+    @Override
+    public Product getProductById(Long id) {
+        return productDao.getProductById(id);
     }
 }
