@@ -65,7 +65,7 @@ public class EditUserServlet extends HttpServlet {
         response.sendRedirect("/users");
     }
 
-    private boolean isUserExist(String email) {
+    private static boolean isUserExist(String email) {
         return userService.getAllUsers()
                 .stream()
                 .anyMatch(x -> x.getEmail().equals(email));
