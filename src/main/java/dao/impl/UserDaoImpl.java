@@ -8,6 +8,7 @@ import model.User;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
 
@@ -30,11 +31,18 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getUserById(Long id){
+    public Optional<User> getUserById(Long id) {
         return Storage.userList
                 .stream()
                 .filter(user -> user.getId().equals(id))
-                .findAny()
-                .get();
+                .findFirst();
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        return Storage.userList
+                .stream()
+                .filter(user -> user.getEmail().equals(email))
+                .findFirst();
     }
 }

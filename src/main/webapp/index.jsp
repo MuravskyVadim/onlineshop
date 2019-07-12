@@ -12,11 +12,13 @@
   </head>
   <body>
   <div style="text-align: center;">
-    <p>Welcome! You can register if you want!</p>
-    <a href="add_product">Add product</a>
-    <a href="products">All products</a>
-    <a href="users">All users</a>
-    <a href="register">Register</a>
+    <p>Welcome! You can register if you want! <a href="register"> Register </a></p>
+    ${message}
+    <form action="/login" method="POST">
+      <p>E-mail:<br><input type="email" name="email"></p>
+      <p>Password:<br><input type="password" name="password"></p>
+      <p><button type="submit">Login</button></p>
+    </form>
   </div>
   </body>
 </html>

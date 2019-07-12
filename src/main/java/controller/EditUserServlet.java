@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet(value = "/user")
 public class EditUserServlet extends HttpServlet {
@@ -25,8 +26,10 @@ public class EditUserServlet extends HttpServlet {
         String edit = request.getParameter("edit");
 
         if (edit != null) {
-            User user = userService.getUserById(Long.parseLong(edit));
-            request.setAttribute("user", user);
+            Optional<User> user = userService.getUserById(Long.parseLong(edit));
+            if(user.isPresent()) {
+                request.setAttribute("user", user.get());
+            }
         }
         request.getRequestDispatcher("user.jsp").forward(request, response);
     }
@@ -39,14 +42,14 @@ public class EditUserServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
-        User user = userService.getUserById(Long.parseLong(save));
+        Optional<User> user = userService.getUserById(Long.parseLong(save));
 
-        if (!save.isEmpty()) {
+        if (!save.isEmpty() && user.isPresent()) {
             if (!email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty()) {
-                if (!isUserExist(email) || user.getEmail().equals(email)) {
+                if (!isUserExist(email) || user.get().getEmail().equals(email)) {
                     if (password.equals(confirmPassword)) {
-                        user.setEmail(email);
-                        user.setPassword(password);
+                        user.get().setEmail(email);
+                        user.get().setPassword(password);
                         logger.info(user + " was edited");
                     } else {
                         request.setAttribute("message", "Passwords not equals! Try again.");

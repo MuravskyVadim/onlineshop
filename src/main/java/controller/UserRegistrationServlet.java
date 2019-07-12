@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/register")
+@WebServlet("/register")
 public class UserRegistrationServlet extends HttpServlet {
 
     private static final UserService userService = UserServiceFactory.getUserService();
@@ -27,7 +27,7 @@ public class UserRegistrationServlet extends HttpServlet {
             if (!isUserExist(email)) {
                 if (password.equals(repeatPassword)) {
                     userService.addUser(email, password);
-                    response.sendRedirect("/users");
+                    response.sendRedirect("/");
                 } else {
                     request.setAttribute("message", "Passwords not equals! Try again...");
                     request.getRequestDispatcher("register.jsp").forward(request, response);

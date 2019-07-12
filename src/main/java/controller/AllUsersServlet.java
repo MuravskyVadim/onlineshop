@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @WebServlet(value = "/users")
 public class AllUsersServlet extends HttpServlet {
@@ -35,9 +36,11 @@ public class AllUsersServlet extends HttpServlet {
         String delete = request.getParameter("delete");
 
         if (delete != null) {
-            User user = userService.getUserById(Long.parseLong(delete));
-            userService.getAllUsers().remove(user);
-            logger.info(user + " removed from db");
+            Optional<User> user = userService.getUserById(Long.parseLong(delete));
+            if(user.isPresent()) {
+                userService.getAllUsers().remove(user.get());
+                logger.info(user + " removed from db");
+            }
         }
         response.sendRedirect("/users");
     }

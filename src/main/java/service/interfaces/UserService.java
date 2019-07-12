@@ -3,6 +3,7 @@ package service.interfaces;
 import model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
@@ -10,5 +11,7 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    User getUserById(Long id);
+    Optional<User> getUserById(Long id);
+
+    Optional<User> getUserByEmail(String email);
 }

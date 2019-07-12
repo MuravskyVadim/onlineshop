@@ -12,15 +12,6 @@
 </head>
 <body>
 <div align="center">
-<%--    <%--%>
-<%--        Writer writer = response.getWriter();--%>
-<%--        writer.write("<h4><center>");--%>
-<%--        String message = (String) request.getAttribute("message");--%>
-<%--        if (message != null) {--%>
-<%--            writer.write(message);--%>
-<%--        }--%>
-<%--        writer.write("</h4></center>");--%>
-<%--    %>--%>
     ${message}
     <form action="/register" method="POST">
         <p>E-mail:<br><input type="email" name="email" value="${email}"></p>
