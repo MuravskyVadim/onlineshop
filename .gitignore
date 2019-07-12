@@ -1,1 +1,5 @@
 .idea
+.xml
+.log
+.iml
+.properties
