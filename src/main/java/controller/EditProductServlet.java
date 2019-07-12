@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet(value = "/product")
 public class EditProductServlet extends HttpServlet {
@@ -25,8 +26,10 @@ public class EditProductServlet extends HttpServlet {
         String edit = request.getParameter("edit");
 
         if (edit != null) {
-            Product product = productService.getProductById(Long.parseLong(edit));
-            request.setAttribute("product", product);
+            Optional<Product> product = productService.getProductById(Long.parseLong(edit));
+            if(product.isPresent()) {
+                request.setAttribute("product", product.get());
+            }
         }
         request.getRequestDispatcher("edit_product.jsp").forward(request, response);
     }
@@ -42,12 +45,14 @@ public class EditProductServlet extends HttpServlet {
 
         if (save != null && !save.isEmpty()) {
             if (!name.isEmpty() && !description.isEmpty() && !price.isEmpty()) {
-                Product product = productService.getProductById(Long.parseLong(save));
-                product.setName(name);
-                product.setDescription(description);
-                Double priceDouble = Double.parseDouble(price);
-                product.setPrice(priceDouble > 0 ? priceDouble : 0);
-                logger.info(product + " was edited");
+                Optional<Product> product = productService.getProductById(Long.parseLong(save));
+                if (product.isPresent()){
+                    product.get().setName(name);
+                    product.get().setDescription(description);
+                    Double priceDouble = Double.parseDouble(price);
+                    product.get().setPrice(priceDouble > 0 ? priceDouble : 0);
+                    logger.info(product.get() + " was edited");
+                }
             } else {
                 request.setAttribute("message", "All fields must be filled!!!");
                 request.getRequestDispatcher("edit_product.jsp").forward(request, response);

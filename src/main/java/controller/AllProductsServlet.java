@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @WebServlet(value = "/products")
 public class AllProductsServlet extends HttpServlet {
@@ -35,9 +36,11 @@ public class AllProductsServlet extends HttpServlet {
         String delete = request.getParameter("delete");
 
         if (delete != null) {
-            Product product = productService.getProductById(Long.parseLong(delete));
-            productService.getAllProducts().remove(product);
-            logger.info(product + " removed from db");
+            Optional<Product> product = productService.getProductById(Long.parseLong(delete));
+            if(product.isPresent()) {
+                productService.getAllProducts().remove(product.get());
+                logger.info(product + " removed from db");
+            }
         }
         response.sendRedirect("/products");
     }

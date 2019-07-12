@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import storage.Storage;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ProductDaoImpl implements ProductDao {
 
@@ -24,11 +25,10 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public Product getProductById(Long id) {
+    public Optional<Product> getProductById(Long id) {
         return Storage.productList
                 .stream()
                 .filter(user -> user.getId().equals(id))
-                .findAny()
-                .get();
+                .findFirst();
     }
 }

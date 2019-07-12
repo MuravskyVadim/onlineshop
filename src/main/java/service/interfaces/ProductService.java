@@ -3,6 +3,7 @@ package service.interfaces;
 import model.Product;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
 
@@ -10,5 +11,5 @@ public interface ProductService {
 
     List<Product> getAllProducts();
 
-    Product getProductById(Long id);
+    Optional<Product> getProductById(Long id);
 }

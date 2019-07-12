@@ -6,6 +6,7 @@ import model.Product;
 import service.interfaces.ProductService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ProductServiceImp implements ProductService {
 
@@ -22,7 +23,7 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public Product getProductById(Long id) {
+    public Optional<Product> getProductById(Long id) {
         return productDao.getProductById(id);
     }
 }

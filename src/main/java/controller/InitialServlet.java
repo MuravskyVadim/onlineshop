@@ -27,7 +27,7 @@ public class InitialServlet extends HttpServlet {
 
         List<User> allUsers = userService.getAllUsers();
         if (allUsers.size() == 0) {
-            userService.addUser("test@mail.ru", "12345");
+            userService.addUser("test@gmail.com", "12345");
         }
 
         List<Product> allProducts = productService.getAllProducts();
