@@ -21,10 +21,8 @@ public class SignInServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
         if (!email.isEmpty() && !password.isEmpty()) {
             Optional<User> user = userService.getUserByEmail(email);
             if (user.isPresent() && user.get().getPassword().equals(password)) {

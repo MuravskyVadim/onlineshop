@@ -25,7 +25,7 @@ public class EditUserServlet extends HttpServlet {
         String id = request.getParameter("id");
         if (id != null) {
             Optional<User> user = userService.getUserById(Long.parseLong(id));
-            if(user.isPresent()) {
+            if (user.isPresent()) {
                 request.setAttribute("user", user.get());
             }
         }
@@ -35,14 +35,12 @@ public class EditUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String id = request.getParameter("id");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
         String role = request.getParameter("role");
         Optional<User> user = userService.getUserById(Long.parseLong(id));
-
         if (!email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty()) {
             if (password.equals(confirmPassword) && user.isPresent()) {
                 user.get().setEmail(email);

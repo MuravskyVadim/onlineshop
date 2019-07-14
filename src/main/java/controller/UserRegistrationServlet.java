@@ -18,12 +18,10 @@ public class UserRegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String repeatPassword = request.getParameter("repeatPassword");
         String role = request.getParameter("role");
-
         if (!email.isEmpty() && !password.isEmpty()
                 && !repeatPassword.isEmpty() && !role.isEmpty()) {
             if (!isUserExist(email)) {

@@ -25,7 +25,7 @@ public class DeleteUserServlet extends HttpServlet {
         String id = request.getParameter("id");
         if (id != null) {
             Optional<User> user = userService.getUserById(Long.parseLong(id));
-            if(user.isPresent()) {
+            if (user.isPresent()) {
                 userService.getAllUsers().remove(user.get());
                 logger.info(user.get() + " removed from db");
             }

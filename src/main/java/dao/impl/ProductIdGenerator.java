@@ -12,4 +12,5 @@ public class ProductIdGenerator {
     public static Long getId() {
         return (Objects.isNull(uniqueId)) ? uniqueId = 1L : ++uniqueId;
     }
+
 }
