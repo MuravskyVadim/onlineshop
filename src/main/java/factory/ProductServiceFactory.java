@@ -12,7 +12,7 @@ public class ProductServiceFactory {
     private ProductServiceFactory() {
     }
 
-    public static ProductService getProductServiceImpl() {
+    public static ProductService getInstance() {
 
         return (Objects.isNull(instance)) ? instance = new ProductServiceImp() : instance;
     }

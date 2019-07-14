@@ -13,6 +13,7 @@
 </head>
 <body>
 <div align="center">
+    ${message}
     <form action="/product" method="post">
         <p>
             <label for="name">Name:</label><br/>
@@ -27,7 +28,7 @@
             <input type="number" name="price" value="${product.price}" step="0.01"/>
         </p>
         <p>
-            <button type="submit" name="save" value="${product.id}">save</button>
+            <button type="submit" name="id" value="${product.id}">save</button>
         </p>
     </form>
 </div>

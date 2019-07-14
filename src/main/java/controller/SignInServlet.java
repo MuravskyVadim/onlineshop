@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -26,12 +27,14 @@ public class SignInServlet extends HttpServlet {
 
         if (!email.isEmpty() && !password.isEmpty()) {
             Optional<User> user = userService.getUserByEmail(email);
-            if(user.isPresent()){
-                request.getRequestDispatcher("/products").forward(request, response);
+            if (user.isPresent() && user.get().getPassword().equals(password)) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user.get());
+                response.sendRedirect("/products");
             } else {
                 request.setAttribute("message",
                         "User " + email + " not exist. Please register.");
-                request.getRequestDispatcher("register.jsp").forward(request, response);
+                request.getRequestDispatcher("/").forward(request, response);
             }
         } else {
             request.setAttribute("message", "All fields must be filled!!!");
@@ -42,6 +45,6 @@ public class SignInServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/").forward(request, response);
+        response.sendRedirect("/");
     }
 }

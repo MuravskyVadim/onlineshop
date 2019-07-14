@@ -22,30 +22,32 @@ public class UserRegistrationServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String repeatPassword = request.getParameter("repeatPassword");
+        String role = request.getParameter("role");
 
-        if (!email.isEmpty() && !password.isEmpty() && !repeatPassword.isEmpty()) {
+        if (!email.isEmpty() && !password.isEmpty()
+                && !repeatPassword.isEmpty() && !role.isEmpty()) {
             if (!isUserExist(email)) {
                 if (password.equals(repeatPassword)) {
-                    userService.addUser(email, password);
+                    userService.addUser(email, password, role);
                     response.sendRedirect("/");
                 } else {
                     request.setAttribute("message", "Passwords not equals! Try again...");
-                    request.getRequestDispatcher("register.jsp").forward(request, response);
+                    request.getRequestDispatcher("/register.jsp").forward(request, response);
                 }
             } else {
                 request.setAttribute("message", "User " + email + " is already registered.");
-                request.getRequestDispatcher("register.jsp").forward(request, response);
+                request.getRequestDispatcher("/register.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("message", "All fields must be filled!!!");
-            request.getRequestDispatcher("register.jsp").forward(request, response);
+            request.getRequestDispatcher("/register.jsp").forward(request, response);
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("register.jsp").forward(request, response);
+        request.getRequestDispatcher("/register.jsp").forward(request, response);
     }
 
     private static boolean isUserExist(String email) {

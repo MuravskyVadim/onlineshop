@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface UserDao {
 
-    void createUser(String email, String password);
+    void createUser(String email, String password, String role);
 
     List<User> getAllUsers();
 

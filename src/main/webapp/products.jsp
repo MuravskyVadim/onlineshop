@@ -33,14 +33,16 @@
                     <td>${product.name}</td>
                     <td>${product.description}</td>
                     <td>${product.price}</td>
-                    <td><a href="/product?edit=${product.id}" name="edit">edit</a></td>
-                    <td><button type="submit" name="delete" value="${product.id}">delete</button></td>
+                    <td><a href="/product?id=${product.id}">edit</a></td>
+                    <td><a href="/product/delete?id=${product.id}">delete</a></td>
                 </tr>
             </c:forEach>
         </table>
     </form>
-    <p><input type="button" class="inline" value=" Users " onClick='location.href="/users"'>
-        <input type="button" class="inline" value=" Add item " onClick='location.href="/add_product"'></p>
+    <p><input type="button" class="inline" value=" Users " onClick='location.href="/admin/users"'
+        <c:if test="${user.role == 'user'}"> disabled </c:if>>
+        <input type="button" class="inline" value=" Add item " onClick='location.href="/add_product"'>
+    </p>
 </div>
 </body>
 </html>

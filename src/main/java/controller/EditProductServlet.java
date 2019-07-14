@@ -17,47 +17,44 @@ import java.util.Optional;
 public class EditProductServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(EditProductServlet.class);
-    private static ProductService productService = ProductServiceFactory.getProductServiceImpl();
+    private static ProductService productService = ProductServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String edit = request.getParameter("edit");
-
-        if (edit != null) {
-            Optional<Product> product = productService.getProductById(Long.parseLong(edit));
-            if(product.isPresent()) {
+        String id = request.getParameter("id");
+        if (id != null) {
+            Optional<Product> product = productService.getProductById(Long.parseLong(id));
+            if (product.isPresent()) {
                 request.setAttribute("product", product.get());
             }
         }
-        request.getRequestDispatcher("edit_product.jsp").forward(request, response);
+        request.getRequestDispatcher("/edit_product.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String save = request.getParameter("save");
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        String price = request.getParameter("price");
-
-        if (save != null && !save.isEmpty()) {
-            if (!name.isEmpty() && !description.isEmpty() && !price.isEmpty()) {
-                Optional<Product> product = productService.getProductById(Long.parseLong(save));
-                if (product.isPresent()){
+        String id = request.getParameter("id");
+        try {
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
+            Double price = Double.parseDouble(request.getParameter("price"));
+            Optional<Product> product = productService.getProductById(Long.parseLong(id));
+            if (!name.isEmpty() && !description.isEmpty() && price > 0) {
+                if (product.isPresent()) {
                     product.get().setName(name);
                     product.get().setDescription(description);
-                    Double priceDouble = Double.parseDouble(price);
-                    product.get().setPrice(priceDouble > 0 ? priceDouble : 0);
+                    product.get().setPrice(price);
+                    response.sendRedirect("/products");
                     logger.info(product.get() + " was edited");
                 }
             } else {
-                request.setAttribute("message", "All fields must be filled!!!");
-                request.getRequestDispatcher("edit_product.jsp").forward(request, response);
+                response.sendRedirect("/product?id=" + id);
             }
+        } catch (NumberFormatException e) {
+            logger.info("Invalid input format.");
+            response.sendRedirect("/product?id=" + id);
         }
-        response.sendRedirect("/products");
     }
 }

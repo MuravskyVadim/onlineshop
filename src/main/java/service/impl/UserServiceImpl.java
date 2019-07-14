@@ -13,8 +13,8 @@ public class UserServiceImpl implements UserService {
     private static final UserDao userDao = UserDaoFactory.getUserDaoImpl();
 
     @Override
-    public void addUser(String email, String password) {
-        userDao.createUser(email, password);
+    public void addUser(String email, String password, String role) {
+        userDao.createUser(email, password, role);
     }
 
     @Override

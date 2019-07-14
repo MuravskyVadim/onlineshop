@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(value = "/user")
+@WebServlet(value = "/admin/user")
 public class EditUserServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(EditUserServlet.class);
@@ -22,55 +22,41 @@ public class EditUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String edit = request.getParameter("edit");
-
-        if (edit != null) {
-            Optional<User> user = userService.getUserById(Long.parseLong(edit));
+        String id = request.getParameter("id");
+        if (id != null) {
+            Optional<User> user = userService.getUserById(Long.parseLong(id));
             if(user.isPresent()) {
                 request.setAttribute("user", user.get());
             }
         }
-        request.getRequestDispatcher("user.jsp").forward(request, response);
+        request.getRequestDispatcher("/user.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String save = request.getParameter("save");
+        String id = request.getParameter("id");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
-        Optional<User> user = userService.getUserById(Long.parseLong(save));
+        String role = request.getParameter("role");
+        Optional<User> user = userService.getUserById(Long.parseLong(id));
 
-        if (!save.isEmpty() && user.isPresent()) {
-            if (!email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty()) {
-                if (!isUserExist(email) || user.get().getEmail().equals(email)) {
-                    if (password.equals(confirmPassword)) {
-                        user.get().setEmail(email);
-                        user.get().setPassword(password);
-                        logger.info(user + " was edited");
-                    } else {
-                        request.setAttribute("message", "Passwords not equals! Try again.");
-                        request.getRequestDispatcher("register.jsp").forward(request, response);
-                    }
-                } else {
-                    request.setAttribute("message", "User " + email +
-                            " is already registered.");
-                    request.getRequestDispatcher("register.jsp").forward(request, response);
-                }
+        if (!email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty()) {
+            if (password.equals(confirmPassword) && user.isPresent()) {
+                user.get().setEmail(email);
+                user.get().setPassword(password);
+                user.get().setRole(role);
+                logger.info(user + " was edited");
             } else {
-                request.setAttribute("message", "All fields must be filled!!!");
-                request.getRequestDispatcher("register.jsp").forward(request, response);
+                request.setAttribute("message", "Passwords not equals! Try again.");
+                request.getRequestDispatcher("/user.jsp").forward(request, response);
             }
+        } else {
+            request.setAttribute("message", "All fields must be filled!!!");
+            request.getRequestDispatcher("/user.jsp").forward(request, response);
         }
-        response.sendRedirect("/users");
-    }
-
-    private static boolean isUserExist(String email) {
-        return userService.getAllUsers()
-                .stream()
-                .anyMatch(x -> x.getEmail().equals(email));
+        response.sendRedirect("/admin/users");
     }
 }

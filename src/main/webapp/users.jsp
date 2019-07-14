@@ -12,17 +12,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Users</title>
+    <title>All users</title>
 </head>
 <body>
 <div align="center">
-    <form action="/users" method="post">
+    <form action="/admin/users" method="post">
         <table align="top" border="1" cellpadding="4" cellspacing="0">
             <caption>Users list</caption>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
                 <th>Password</th>
+                <th>Role</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -31,8 +32,9 @@
                     <td>${user.id}</td>
                     <td>${user.email}</td>
                     <td>${user.password}</td>
-                    <td><a href="/user?edit=${user.id}" name="edit">edit</a></td>
-                    <td><button type="submit" name="delete" value="${user.id}">delete</button></td>
+                    <td>${user.role}</td>
+                    <td><a href="/admin/user?id=${user.id}">edit</a></td>
+                    <td><a href="/admin/user/delete?id=${user.id}">delete</a></td>
                 </tr>
             </c:forEach>
         </table>

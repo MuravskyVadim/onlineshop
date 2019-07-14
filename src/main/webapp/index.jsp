@@ -13,10 +13,10 @@
   <body>
   <div style="text-align: center;">
     <p>Welcome! You can register if you want! <a href="register"> Register </a></p>
-    ${message}
     <form action="/login" method="POST">
       <p>E-mail:<br><input type="email" name="email"></p>
       <p>Password:<br><input type="password" name="password"></p>
+      ${message}
       <p><button type="submit">Login</button></p>
     </form>
   </div>

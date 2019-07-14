@@ -1,9 +1,9 @@
 package dao.impl;
 
-import org.apache.log4j.Logger;
-import storage.Storage;
 import dao.interfaces.UserDao;
 import model.User;
+import org.apache.log4j.Logger;
+import storage.Storage;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -15,9 +15,9 @@ public class UserDaoImpl implements UserDao {
     private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
 
     @Override
-    public void createUser(String email, String password) {
-        if (Objects.nonNull(email) || Objects.nonNull(password)) {
-            User user = new User(UserIdGenerator.getId(), email, password);
+    public void createUser(String email, String password, String role) {
+        if (Objects.nonNull(email) && Objects.nonNull(password) && Objects.nonNull(role)) {
+            User user = new User(UserIdGenerator.getId(), email, password, role);
             Storage.userList.add(user);
             logger.info(user + " added to db");
         } else {

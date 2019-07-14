@@ -1,10 +1,3 @@
-<%@ page import="java.io.Writer" %><%--
-  Created by IntelliJ IDEA.
-  User: User
-  Date: 04.07.2019
-  Time: 18:38
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -17,6 +10,8 @@
         <p>E-mail:<br><input type="email" name="email" value="${email}"></p>
         <p>Password:<br><input type="password" name="password"></p>
         <p>Repeat password:<br><input type="password" name="repeatPassword"></p>
+        <label><input type="radio" name="role" value="admin">admin</label>
+        <label><input type="radio" name="role" value="user" checked="true">user</label><br/>
         <p><button type="submit">Register</button></p>
     </form>
 </div>
