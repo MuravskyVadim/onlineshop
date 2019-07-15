@@ -27,22 +27,6 @@ public class SigninServlet extends HttpServlet {
             Optional<User> user = userService.getUserByEmail(email);
             if (user.isPresent() && user.get().getPassword().equals(password)) {
                 HttpSession session = request.getSession();
-//                switch (user.get().getRole()) {
-//                    default: {
-//                        request.setAttribute("message", "There is no user with this role.");
-//                        break;
-//                    }
-//                    case "user": {
-//                        session.setAttribute("user", user.get());
-//                        response.sendRedirect("/products");
-//                        break;
-//                    }
-//                    case "admin": {
-//                        session.setAttribute("user", user.get());
-//                        response.sendRedirect("/products");
-//                        break;
-//                    }
-//                }
                 session.setAttribute("user", user.get());
                 response.sendRedirect("/products");
             } else {
