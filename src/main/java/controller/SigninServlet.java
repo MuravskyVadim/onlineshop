@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @WebServlet("/login")
-public class SignInServlet extends HttpServlet {
+public class SigninServlet extends HttpServlet {
 
     private static final UserService userService = UserServiceFactory.getUserService();
 
@@ -27,6 +27,22 @@ public class SignInServlet extends HttpServlet {
             Optional<User> user = userService.getUserByEmail(email);
             if (user.isPresent() && user.get().getPassword().equals(password)) {
                 HttpSession session = request.getSession();
+//                switch (user.get().getRole()) {
+//                    default: {
+//                        request.setAttribute("message", "There is no user with this role.");
+//                        break;
+//                    }
+//                    case "user": {
+//                        session.setAttribute("user", user.get());
+//                        response.sendRedirect("/products");
+//                        break;
+//                    }
+//                    case "admin": {
+//                        session.setAttribute("user", user.get());
+//                        response.sendRedirect("/products");
+//                        break;
+//                    }
+//                }
                 session.setAttribute("user", user.get());
                 response.sendRedirect("/products");
             } else {

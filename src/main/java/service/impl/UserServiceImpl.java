@@ -13,8 +13,8 @@ public class UserServiceImpl implements UserService {
     private static final UserDao userDao = UserDaoFactory.getUserDaoImpl();
 
     @Override
-    public void addUser(String email, String password, String role) {
-        userDao.createUser(email, password, role);
+    public void addUser(User user) {
+        userDao.createUser(user);
     }
 
     @Override
@@ -30,5 +30,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserByEmail(String email) {
         return userDao.getUserByEmail(email);
+    }
+
+    @Override
+    public boolean isUserExist(String email) {
+        return userDao.getAllUsers()
+                .stream()
+                .anyMatch(x -> x.getEmail().equals(email));
     }
 }

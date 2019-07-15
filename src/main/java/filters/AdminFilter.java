@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @WebFilter(urlPatterns = "/admin/*")
 public class AdminFilter implements Filter {
-    
+
     public void destroy() {
     }
 

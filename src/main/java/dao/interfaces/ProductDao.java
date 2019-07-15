@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ProductDao {
 
-    void createProduct(String name, String description, Double price);
+    void createProduct(Product product);
 
     List<Product> getAllProducts();
 

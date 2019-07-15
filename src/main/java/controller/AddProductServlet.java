@@ -1,6 +1,8 @@
 package controller;
 
+import dao.impl.ProductIdGenerator;
 import factory.ProductServiceFactory;
+import model.Product;
 import org.apache.log4j.Logger;
 import service.interfaces.ProductService;
 
@@ -26,7 +28,8 @@ public class AddProductServlet extends HttpServlet {
             String description = request.getParameter("description");
             Double price = Double.parseDouble(request.getParameter("price"));
             if (Objects.nonNull(name) && Objects.nonNull(description) && price > 0) {
-                productService.addProduct(name, description, price);
+                Product product = new Product(ProductIdGenerator.getId(), name, description, price);
+                productService.addProduct(product);
                 logger.info(name + " was added to db");
                 response.sendRedirect("/products");
             } else {

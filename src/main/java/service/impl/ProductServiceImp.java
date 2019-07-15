@@ -13,8 +13,8 @@ public class ProductServiceImp implements ProductService {
     private static final ProductDao productDao = ProductDaoFactory.getProductDaoImpl();
 
     @Override
-    public void addProduct(String name, String description, Double price) {
-        productDao.createProduct(name, description, price);
+    public void addProduct(Product product) {
+        productDao.createProduct(product);
     }
 
     @Override

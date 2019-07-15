@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ProductService {
 
-    void addProduct(String name, String description, Double price);
+    void addProduct(Product product);
 
     List<Product> getAllProducts();
 
