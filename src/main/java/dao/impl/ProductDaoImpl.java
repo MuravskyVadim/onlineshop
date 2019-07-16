@@ -10,13 +10,9 @@ import java.util.Optional;
 
 public class ProductDaoImpl implements ProductDao {
 
-    private static final Logger logger = Logger.getLogger(ProductDaoImpl.class);
-
     @Override
-    public void createProduct(String name, String description, Double price) {
-        Product product = new Product(ProductIdGenerator.getId(), name, description, price);
+    public void createProduct(Product product) {
         Storage.productList.add(product);
-        logger.info(product + " added to db");
     }
 
     @Override

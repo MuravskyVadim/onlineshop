@@ -33,13 +33,19 @@
                     <td>${user.email}</td>
                     <td>${user.password}</td>
                     <td>${user.role}</td>
-                    <td><a href="/admin/user?id=${user.id}">edit</a></td>
-                    <td><a href="/admin/user/delete?id=${user.id}">delete</a></td>
+                    <td>
+                        <input type="button" class="inline" value="edit"
+                               onClick='location.href="/admin/user?id=${user.id}"'>
+                    </td>
+                    <td>
+                        <input type="button" class="inline" value="delete"
+                               onClick='location.href="/admin/user/delete?id=${user.id}"'>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
     </form>
-    <p><input type="button" value="Goods" onClick='location.href="/products"'></p>
+    <p><input type="button" value="Goods" onClick='location.href="/user/products"'></p>
 </div>
 </body>
 </html>

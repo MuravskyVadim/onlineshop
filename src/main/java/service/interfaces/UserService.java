@@ -7,11 +7,12 @@ import java.util.Optional;
 
 public interface UserService {
 
-    void addUser(String email, String password, String role);
+    void addUser(User user);
 
     List<User> getAllUsers();
 
     Optional<User> getUserById(Long id);
 
     Optional<User> getUserByEmail(String email);
+    boolean isUserExist(String email);
 }

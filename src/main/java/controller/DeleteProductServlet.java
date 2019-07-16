@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(value = "/product/delete")
+@WebServlet(value = "/admin/product/delete")
 public class DeleteProductServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(AllUsersServlet.class);
+    private static final Logger logger = Logger.getLogger(DeleteProductServlet.class);
     private static final ProductService productService = ProductServiceFactory.getInstance();
 
     @Override
@@ -30,6 +30,6 @@ public class DeleteProductServlet extends HttpServlet {
                 logger.info(product.get() + " removed from db");
             }
         }
-        response.sendRedirect("/products");
+        response.sendRedirect("/user/products");
     }
 }

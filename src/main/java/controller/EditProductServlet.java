@@ -46,7 +46,7 @@ public class EditProductServlet extends HttpServlet {
                     product.get().setName(name);
                     product.get().setDescription(description);
                     product.get().setPrice(price);
-                    response.sendRedirect("/products");
+                    response.sendRedirect("/user/products");
                     logger.info(product.get() + " was edited");
                 }
             } else {

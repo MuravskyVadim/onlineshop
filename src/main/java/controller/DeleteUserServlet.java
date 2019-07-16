@@ -16,7 +16,7 @@ import java.util.Optional;
 @WebServlet(value = "/admin/user/delete")
 public class DeleteUserServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(AllUsersServlet.class);
+    private static final Logger logger = Logger.getLogger(DeleteUserServlet.class);
     private static final UserService userService = UserServiceFactory.getUserService();
 
     @Override

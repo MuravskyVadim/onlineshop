@@ -28,7 +28,7 @@ public class SignInServlet extends HttpServlet {
             if (user.isPresent() && user.get().getPassword().equals(password)) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user.get());
-                response.sendRedirect("/products");
+                response.sendRedirect("/user/products");
             } else {
                 request.setAttribute("message",
                         "User " + email + " not exist. Please register.");

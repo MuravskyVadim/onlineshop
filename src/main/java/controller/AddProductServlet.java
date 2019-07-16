@@ -1,6 +1,8 @@
 package controller;
 
+import utils.ProductIdGenerator;
 import factory.ProductServiceFactory;
+import model.Product;
 import org.apache.log4j.Logger;
 import service.interfaces.ProductService;
 
@@ -15,7 +17,7 @@ import java.util.Objects;
 @WebServlet(value = "/add_product")
 public class AddProductServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(AllUsersServlet.class);
+    private static final Logger logger = Logger.getLogger(AddProductServlet.class);
     private static final ProductService productService = ProductServiceFactory.getInstance();
 
     @Override
@@ -26,9 +28,10 @@ public class AddProductServlet extends HttpServlet {
             String description = request.getParameter("description");
             Double price = Double.parseDouble(request.getParameter("price"));
             if (Objects.nonNull(name) && Objects.nonNull(description) && price > 0) {
-                productService.addProduct(name, description, price);
-                logger.info(name + " was added to db");
-                response.sendRedirect("/products");
+                Product product = new Product(ProductIdGenerator.getId(), name, description, price);
+                productService.addProduct(product);
+                logger.info(product + " was added to db");
+                response.sendRedirect("/user/products");
             } else {
                 request.setAttribute("message", "All fields must be filled correctly!!!");
                 request.getRequestDispatcher("/add_product.jsp").forward(request, response);

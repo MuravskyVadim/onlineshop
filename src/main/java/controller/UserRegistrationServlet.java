@@ -1,6 +1,8 @@
 package controller;
 
+import utils.UserIdGenerator;
 import factory.UserServiceFactory;
+import model.User;
 import service.interfaces.UserService;
 
 import javax.servlet.ServletException;
@@ -24,9 +26,10 @@ public class UserRegistrationServlet extends HttpServlet {
         String role = request.getParameter("role");
         if (!email.isEmpty() && !password.isEmpty()
                 && !repeatPassword.isEmpty() && !role.isEmpty()) {
-            if (!isUserExist(email)) {
+            if (!userService.isUserExist(email)) {
                 if (password.equals(repeatPassword)) {
-                    userService.addUser(email, password, role);
+                    User user = new User(UserIdGenerator.getId(), email, password, role);
+                    userService.addUser(user);
                     response.sendRedirect("/");
                 } else {
                     request.setAttribute("message", "Passwords not equals! Try again...");
@@ -46,11 +49,5 @@ public class UserRegistrationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("/register.jsp").forward(request, response);
-    }
-
-    private static boolean isUserExist(String email) {
-        return userService.getAllUsers()
-                .stream()
-                .anyMatch(x -> x.getEmail().equals(email));
     }
 }

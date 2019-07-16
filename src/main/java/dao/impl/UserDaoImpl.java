@@ -15,14 +15,9 @@ public class UserDaoImpl implements UserDao {
     private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
 
     @Override
-    public void createUser(String email, String password, String role) {
-        if (Objects.nonNull(email) && Objects.nonNull(password) && Objects.nonNull(role)) {
-            User user = new User(UserIdGenerator.getId(), email, password, role);
-            Storage.userList.add(user);
-            logger.info(user + " added to db");
-        } else {
-            throw new NoSuchElementException();
-        }
+    public void createUser(User user) {
+        Storage.userList.add(user);
+        logger.info(user + " added to db");
     }
 
     @Override
