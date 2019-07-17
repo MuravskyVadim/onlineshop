@@ -3,23 +3,23 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cart {
+public class Basket {
 
-    private List<Product> cart;
+    private List<Product> basket;
 
-    public Cart() {
-        cart = new ArrayList<>();
+    public Basket() {
+        basket = new ArrayList<>();
     }
 
     public void addProduct(Product product) {
-        cart.add(product);
+        basket.add(product);
     }
 
     public List<Product> getProducts() {
-        return cart;
+        return basket;
     }
 
     public int getSize() {
-        return cart.size();
+        return basket.size();
     }
 }

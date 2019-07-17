@@ -63,8 +63,8 @@
     </c:when>
     <c:otherwise>
         <p>${message}</p>
-        <p>Goods in the cart ${user.cart.size}</p>
-        <input type="button" class="inline" value="Cart" onClick='location.href="/user/checkout?userId=${user.id}"'>
+        <p>Goods in the basket ${user.basket.size}</p>
+        <input type="button" class="inline" value="Basket" onClick='location.href="/user/checkout?userId=${user.id}"'>
     </c:otherwise>
 </c:choose>
 <input type="button" class="inline" value="Exit" onClick='location.href="/exit"'>

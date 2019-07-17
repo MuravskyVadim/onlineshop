@@ -1,8 +1,8 @@
 package service.interfaces;
 
-import utils.Code;
+import model.User;
 
 public interface MailService {
 
-    void sendConfirmCode(Code code);
+    void sendConfirmCode(User user);
 }

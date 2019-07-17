@@ -3,7 +3,6 @@ package controller;
 import factory.MailServiceFactory;
 import model.User;
 import service.interfaces.MailService;
-import utils.Code;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,15 +24,15 @@ public class CheckoutServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (Objects.nonNull(user)) {
-            Code code = new Code(user);
-            mailService.sendConfirmCode(code);
-            session.setAttribute("sendCode", code.getCode());
+            mailService.sendConfirmCode(user);
+            session.setAttribute("sendCode", user.getCode().getCode());
         }
         response.sendRedirect("/code.jsp");
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         request.getRequestDispatcher("/checkout.jsp").forward(request, response);
     }
 }

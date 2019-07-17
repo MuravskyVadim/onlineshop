@@ -32,10 +32,10 @@ public class BuyProductServlet extends HttpServlet {
             Optional<Product> product = productService.getProductById(Long.parseLong(productId));
             Optional<User> user = userService.getUserById(Long.parseLong(userId));
             if (product.isPresent() && user.isPresent()) {
-                user.get().getCart().addProduct(product.get());
-                request.setAttribute("message", product.get().getName() + " added to cart");
+                user.get().getBasket().addProduct(product.get());
+                request.setAttribute("message", product.get().getName() + " added to basket");
                 request.getRequestDispatcher("/user/products").forward(request, response);
-                logger.info(product.get() + " added to cart");
+                logger.info(product.get() + " added to basket");
             } else {
                 request.setAttribute("message", "Such product or user not exist.");
                 request.getRequestDispatcher("/user/products").forward(request, response);

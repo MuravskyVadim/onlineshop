@@ -1,17 +1,12 @@
 package service.impl;
 
+import model.User;
 import org.apache.log4j.Logger;
 import service.interfaces.MailService;
-import utils.Code;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-import javax.mail.internet.MimeMessage;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class MailServiceImpl implements MailService {
@@ -19,10 +14,10 @@ public class MailServiceImpl implements MailService {
     private static final Logger logger = Logger.getLogger(MailService.class);
 
     @Override
-    public void sendConfirmCode(Code code) {
+    public void sendConfirmCode(User user) {
         final String mailFrom = "mate.acamemy.shop@gmail.com";
         final String password = "test12345test";
-        final String mailTo = code.getUser().getEmail();
+        final String mailTo = user.getEmail();
 
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -43,10 +38,10 @@ public class MailServiceImpl implements MailService {
             message.setFrom(new InternetAddress(mailFrom));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailTo));
             message.setSubject("Confirm code");
-            message.setText("Confirm code from mate.acamemy.shop " + code.getCode());
+            message.setText("Confirm code from mate.acamemy.shop " + user.getCode().getCode());
 
             Transport.send(message);
-            logger.info("Message with confirm code send to..." + code.getUser().getEmail());
+            logger.info("Message with confirm code send to..." + mailTo);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

@@ -8,13 +8,13 @@
 <div align="center">
     <form action="/user/checkout" method="POST">
         <table align="top" border="1" cellpadding="4" cellspacing="0">
-            <caption>Products list in the cart</caption>
+            <caption>Products list in the basket</caption>
             <tr>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
             </tr>
-            <c:forEach items="${user.cart.products}" var="product">
+            <c:forEach items="${user.basket.products}" var="product">
                 <tr>
                     <td>${product.name}</td>
                     <td>${product.description}</td>
