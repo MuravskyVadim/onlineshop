@@ -1,6 +1,6 @@
 package factory;
 
-import dao.impl.UserDaoImpl;
+import dao.impl.UserDaoJdbcImpl;
 import dao.interfaces.UserDao;
 
 import java.util.Objects;
@@ -12,7 +12,7 @@ public class UserDaoFactory {
     private UserDaoFactory() {
     }
 
-    public static UserDao getUserDaoImpl() {
-        return (Objects.isNull(instance)) ? instance = new UserDaoImpl() : instance;
+    public static UserDao getInstance() {
+        return (Objects.isNull(instance)) ? instance = new UserDaoJdbcImpl() : instance;
     }
 }

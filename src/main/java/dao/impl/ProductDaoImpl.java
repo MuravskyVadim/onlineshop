@@ -2,7 +2,6 @@ package dao.impl;
 
 import dao.interfaces.ProductDao;
 import model.Product;
-import org.apache.log4j.Logger;
 import storage.Storage;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.Optional;
 public class ProductDaoImpl implements ProductDao {
 
     @Override
-    public void createProduct(Product product) {
+    public void addProduct(Product product) {
         Storage.productList.add(product);
     }
 
@@ -26,5 +25,15 @@ public class ProductDaoImpl implements ProductDao {
                 .stream()
                 .filter(product -> product.getId().equals(id))
                 .findFirst();
+    }
+
+    @Override
+    public void removeProduct(Product product) {
+
+    }
+
+    @Override
+    public void updateProduct(Product product) {
+
     }
 }

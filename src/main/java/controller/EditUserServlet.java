@@ -2,7 +2,6 @@ package controller;
 
 import factory.UserServiceFactory;
 import model.User;
-import org.apache.log4j.Logger;
 import service.interfaces.UserService;
 
 import javax.servlet.ServletException;
@@ -16,8 +15,7 @@ import java.util.Optional;
 @WebServlet(value = "/admin/user")
 public class EditUserServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(EditUserServlet.class);
-    private static UserService userService = UserServiceFactory.getUserService();
+    private static UserService userService = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -40,13 +38,11 @@ public class EditUserServlet extends HttpServlet {
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
         String role = request.getParameter("role");
-        Optional<User> user = userService.getUserById(Long.parseLong(id));
+        Optional<User> userById = userService.getUserById(Long.parseLong(id));
         if (!email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty()) {
-            if (password.equals(confirmPassword) && user.isPresent()) {
-                user.get().setEmail(email);
-                user.get().setPassword(password);
-                user.get().setRole(role);
-                logger.info(user + " was edited");
+            if (password.equals(confirmPassword) && userById.isPresent()) {
+                User newUser = new User(userById.get().getId(), email, password, role);
+                userService.updateUser(newUser);
             } else {
                 request.setAttribute("message", "Passwords not equals! Try again.");
                 request.getRequestDispatcher("/user.jsp").forward(request, response);

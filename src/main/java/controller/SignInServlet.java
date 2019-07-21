@@ -16,7 +16,7 @@ import java.util.Optional;
 @WebServlet("/login")
 public class SignInServlet extends HttpServlet {
 
-    private static final UserService userService = UserServiceFactory.getUserService();
+    private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -25,18 +25,23 @@ public class SignInServlet extends HttpServlet {
         String password = request.getParameter("password");
         if (!email.isEmpty() && !password.isEmpty()) {
             Optional<User> user = userService.getUserByEmail(email);
-            if (user.isPresent() && user.get().getPassword().equals(password)) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user.get());
-                response.sendRedirect("/user/products");
+            if (user.isPresent()) {
+                if(user.get().getPassword().equals(password)) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user.get());
+                    response.sendRedirect("/user/products");
+                }else{
+                    request.setAttribute("message", "Wrong password");
+                    request.getRequestDispatcher("/index.jsp").forward(request, response);
+                }
             } else {
                 request.setAttribute("message",
                         "User " + email + " not exist. Please register.");
-                request.getRequestDispatcher("/").forward(request, response);
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("message", "All fields must be filled!!!");
-            request.getRequestDispatcher("/").forward(request, response);
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
     }
 

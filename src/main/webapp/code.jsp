@@ -9,7 +9,10 @@
     <form action="/user/code" method="POST">
         <p>Confirm code:<br><input type="password" name="code"></p>
         ${message}
-        <p><button type="submit">Confirm</button></p>
+        <p>
+            <input type="submit" class="inline" value="Submit">
+            <input type="button" class="inline" value="Exit" onClick='location.href="/exit"'>
+        </p>
     </form>
 </div>
 </body>

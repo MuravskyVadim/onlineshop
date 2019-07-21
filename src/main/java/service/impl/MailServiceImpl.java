@@ -17,7 +17,7 @@ public class MailServiceImpl implements MailService {
     public void sendConfirmCode(User user) {
         final String mailFrom = "mate.acamemy.shop@gmail.com";
         final String password = "test12345test";
-        final String mailTo = user.getEmail();
+        final String mailTo = "myrvadim@gmail.com";
 
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -38,12 +38,12 @@ public class MailServiceImpl implements MailService {
             message.setFrom(new InternetAddress(mailFrom));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailTo));
             message.setSubject("Confirm code");
-            message.setText("Confirm code from mate.acamemy.shop " + user.getCode().getCode());
+            message.setText("Confirm code from mate.acamemy.shop " + user.getCode().getValue());
 
             Transport.send(message);
             logger.info("Message with confirm code send to..." + mailTo);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            logger.error("MessagingException " + e.getMessage());
         }
     }
 }

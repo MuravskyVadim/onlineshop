@@ -30,7 +30,6 @@ public class AddProductServlet extends HttpServlet {
             if (Objects.nonNull(name) && Objects.nonNull(description) && price > 0) {
                 Product product = new Product(ProductIdGenerator.getId(), name, description, price);
                 productService.addProduct(product);
-                logger.info(product + " was added to db");
                 response.sendRedirect("/user/products");
             } else {
                 request.setAttribute("message", "All fields must be filled correctly!!!");

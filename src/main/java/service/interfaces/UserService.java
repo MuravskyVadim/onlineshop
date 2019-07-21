@@ -14,5 +14,10 @@ public interface UserService {
     Optional<User> getUserById(Long id);
 
     Optional<User> getUserByEmail(String email);
+
+    void updateUser(User user);
+
+    void deleteUser(User user);
+
     boolean isUserExist(String email);
 }

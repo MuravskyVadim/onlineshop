@@ -1,14 +1,19 @@
 package utils;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class Code {
 
-    @Getter
-    private String code;
+    private String value;
 
     public Code() {
-        int number = 1000 + (int) (Math.random() * 9999);
-        code = String.valueOf(number);
+        value = String.valueOf(1000 + (int) (Math.random() * 9000));
     }
 }

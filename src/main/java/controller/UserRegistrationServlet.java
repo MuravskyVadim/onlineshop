@@ -15,7 +15,7 @@ import java.io.IOException;
 @WebServlet("/register")
 public class UserRegistrationServlet extends HttpServlet {
 
-    private static final UserService userService = UserServiceFactory.getUserService();
+    private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

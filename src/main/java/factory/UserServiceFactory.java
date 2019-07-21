@@ -12,7 +12,7 @@ public class UserServiceFactory {
     private UserServiceFactory() {
     }
 
-    public static UserService getUserService() {
+    public static UserService getInstance() {
         return (Objects.isNull(instance)) ? instance = new UserServiceImpl() : instance;
     }
 }

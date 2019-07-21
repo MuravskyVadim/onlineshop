@@ -10,11 +10,11 @@ import java.util.Optional;
 
 public class ProductServiceImp implements ProductService {
 
-    private static final ProductDao productDao = ProductDaoFactory.getProductDaoImpl();
+    private static final ProductDao productDao = ProductDaoFactory.getInstance();
 
     @Override
     public void addProduct(Product product) {
-        productDao.createProduct(product);
+        productDao.addProduct(product);
     }
 
     @Override
@@ -25,5 +25,15 @@ public class ProductServiceImp implements ProductService {
     @Override
     public Optional<Product> getProductById(Long id) {
         return productDao.getProductById(id);
+    }
+
+    @Override
+    public void removeProduct(Product product) {
+        productDao.removeProduct(product);
+    }
+
+    @Override
+    public void updateProduct(Product product) {
+        productDao.updateProduct(product);
     }
 }

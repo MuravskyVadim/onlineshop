@@ -6,37 +6,30 @@ import lombok.Setter;
 import lombok.ToString;
 import utils.Code;
 
+@Setter
+@Getter
 @EqualsAndHashCode
 @ToString
 public class User {
 
-     @Getter
-     private Long id;
+    private Long id;
+    private String email;
+    private String password;
+    private String role;
+    private Code code;
 
-     @Setter
-     @Getter
-     private String email;
+    public User(Long id, String email, String password, String role) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        code = new Code();
+    }
 
-     @Setter
-     @Getter
-     private String password;
-
-     @Setter
-     @Getter
-     private String role;
-
-     @Getter
-     private Basket basket;
-
-     @Getter
-     private Code code;
-
-     public User(Long id, String email, String password, String role) {
-          this.id = id;
-          this.email = email;
-          this.password = password;
-          this.role = role;
-          this.basket = new Basket();
-          code = new Code();
-     }
+    public User(String email, String password, String role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        code = new Code();
+    }
 }
