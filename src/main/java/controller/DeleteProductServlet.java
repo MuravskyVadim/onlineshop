@@ -2,7 +2,6 @@ package controller;
 
 import factory.ProductServiceFactory;
 import model.Product;
-import org.apache.log4j.Logger;
 import service.interfaces.ProductService;
 
 import javax.servlet.ServletException;
@@ -16,7 +15,6 @@ import java.util.Optional;
 @WebServlet(value = "/admin/product/delete")
 public class DeleteProductServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(DeleteProductServlet.class);
     private static final ProductService productService = ProductServiceFactory.getInstance();
 
     @Override
@@ -26,8 +24,7 @@ public class DeleteProductServlet extends HttpServlet {
         if (id != null) {
             Optional<Product> product = productService.getProductById(Long.parseLong(id));
             if (product.isPresent()) {
-                productService.getAllProducts().remove(product.get());
-                logger.info(product.get() + " removed from db");
+                productService.removeProduct(product.get());
             }
         }
         response.sendRedirect("/user/products");

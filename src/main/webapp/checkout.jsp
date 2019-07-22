@@ -13,12 +13,17 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
+                <th></th>
             </tr>
-            <c:forEach items="${user.basket.products}" var="product">
+            <c:forEach items="${basket}" var="product">
                 <tr>
                     <td>${product.name}</td>
                     <td>${product.description}</td>
                     <td>${product.price}</td>
+                    <td>
+                        <input type="button" value="delete"
+                               onClick='location.href="/user/basket/product/delete?id=${product.id}"'>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
@@ -48,7 +53,8 @@
         </p>
         ${message}
         <p>
-            <p><button type="submit">Submit</button></p>
+            <input type="submit" class="inline" value="Submit">
+            <input type="button" class="inline" value="Exit" onClick='location.href="/exit"'>
         </p>
     </form>
 </div>

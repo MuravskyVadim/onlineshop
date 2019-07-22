@@ -15,7 +15,7 @@ public class UserDaoImpl implements UserDao {
     private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
 
     @Override
-    public void createUser(User user) {
+    public void addUser(User user) {
         Storage.userList.add(user);
         logger.info(user + " added to db");
     }
@@ -39,5 +39,19 @@ public class UserDaoImpl implements UserDao {
                 .stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst();
+    }
+
+    @Override
+    public void removeUser(User user) {
+        Storage.userList.remove(user);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        Optional<User> oldUser = getUserById(user.getId());
+        if (oldUser.isPresent()) {
+            int index = Storage.userList.indexOf(oldUser.get());
+            Storage.userList.set(index, user);
+        }
     }
 }

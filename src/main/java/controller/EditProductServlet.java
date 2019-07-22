@@ -40,14 +40,13 @@ public class EditProductServlet extends HttpServlet {
             String name = request.getParameter("name");
             String description = request.getParameter("description");
             Double price = Double.parseDouble(request.getParameter("price"));
-            Optional<Product> product = productService.getProductById(Long.parseLong(id));
+            Optional<Product> productById = productService.getProductById(Long.parseLong(id));
             if (!name.isEmpty() && !description.isEmpty() && price > 0) {
-                if (product.isPresent()) {
-                    product.get().setName(name);
-                    product.get().setDescription(description);
-                    product.get().setPrice(price);
+                if (productById.isPresent()) {
+                    Product newProduct = new Product(
+                            productById.get().getId(), name, description, price);
+                    productService.updateProduct(newProduct);
                     response.sendRedirect("/user/products");
-                    logger.info(product.get() + " was edited");
                 }
             } else {
                 response.sendRedirect("/product?id=" + id);

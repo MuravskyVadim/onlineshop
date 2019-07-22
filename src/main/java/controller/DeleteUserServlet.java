@@ -2,7 +2,6 @@ package controller;
 
 import factory.UserServiceFactory;
 import model.User;
-import org.apache.log4j.Logger;
 import service.interfaces.UserService;
 
 import javax.servlet.ServletException;
@@ -16,8 +15,7 @@ import java.util.Optional;
 @WebServlet(value = "/admin/user/delete")
 public class DeleteUserServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(DeleteUserServlet.class);
-    private static final UserService userService = UserServiceFactory.getUserService();
+    private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -26,8 +24,7 @@ public class DeleteUserServlet extends HttpServlet {
         if (id != null) {
             Optional<User> user = userService.getUserById(Long.parseLong(id));
             if (user.isPresent()) {
-                userService.getAllUsers().remove(user.get());
-                logger.info(user.get() + " removed from db");
+                userService.deleteUser(user.get());
             }
         }
         response.sendRedirect("/admin/users");

@@ -10,11 +10,11 @@ import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
-    private static final UserDao userDao = UserDaoFactory.getUserDaoImpl();
+    private static final UserDao userDao = UserDaoFactory.getInstance();
 
     @Override
     public void addUser(User user) {
-        userDao.createUser(user);
+        userDao.addUser(user);
     }
 
     @Override
@@ -37,5 +37,15 @@ public class UserServiceImpl implements UserService {
         return userDao.getAllUsers()
                 .stream()
                 .anyMatch(x -> x.getEmail().equals(email));
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userDao.updateUser(user);
+    }
+
+    @Override
+    public void deleteUser(User user) {
+        userDao.removeUser(user);
     }
 }
