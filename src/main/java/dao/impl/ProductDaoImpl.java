@@ -29,11 +29,15 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void removeProduct(Product product) {
-
+        Storage.productList.remove(product);
     }
 
     @Override
     public void updateProduct(Product product) {
-
+        Optional<Product> oldProduct = getProductById(product.getId());
+        if (oldProduct.isPresent()) {
+            int index = Storage.productList.indexOf(oldProduct.get());
+            Storage.productList.set(index, product);
+        }
     }
 }

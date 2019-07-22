@@ -17,19 +17,27 @@ import java.util.Optional;
 public class OrderDaoJdbcImpl implements OrderDao {
 
     private static final Logger logger = Logger.getLogger(OrderDaoJdbcImpl.class);
-
+    private static final String ADD_ORDER = "INSERT INTO orders(" +
+            "user_id, code_value, first_name, last_name, city, " +
+            "street, house_number, phone_number) " +
+            "VALUES(%d, '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+    private static final String GET_ORDER_BY_ID = "SELECT * FROM orders INNER JOIN users " +
+            "ON orders.user_id = users.id WHERE orders.id = ";
     @Override
     public Optional<Long> addOrder(Order order) {
-        String sql = String.format("INSERT INTO orders(" +
-                        "user_id, code_value, first_name, last_name, city, " +
-                        "street, house_number, phone_number) " +
-                        "VALUES(%d, '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
-                order.getUser().getId(), order.getUser().getCode().getValue(), order.getFirstName(),
-                order.getLastName(), order.getCity(), order.getStreet(), order.getHouseNumber(),
-                order.getPhoneNumber());
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     sql, Statement.RETURN_GENERATED_KEYS)) {
+                     String.format(
+                             ADD_ORDER,
+                             order.getUser().getId(),
+                             order.getUser().getCode().getValue(),
+                             order.getFirstName(),
+                             order.getLastName(),
+                             order.getCity(),
+                             order.getStreet(),
+                             order.getHouseNumber(),
+                             order.getPhoneNumber()),
+                     Statement.RETURN_GENERATED_KEYS)) {
             statement.execute();
             ResultSet resultSet = statement.getGeneratedKeys();
             if(resultSet.next()) {
@@ -45,11 +53,9 @@ public class OrderDaoJdbcImpl implements OrderDao {
 
     @Override
     public Optional<Order> getOrderById(Long id) {
-        String sql = "SELECT * FROM orders INNER JOIN users ON orders.user_id = users.id " +
-                "WHERE orders.id = " + id;
         try (Connection connection = DBConnection.getConnection();
                 Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery(GET_ORDER_BY_ID + id);
             if (resultSet.next()) {
                 Code code = new Code();
                 code.setValue(resultSet.getString("code_value"));

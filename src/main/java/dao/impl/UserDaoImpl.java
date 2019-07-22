@@ -43,11 +43,15 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void removeUser(User user) {
-
+        Storage.userList.remove(user);
     }
 
     @Override
     public void updateUser(User user) {
-
+        Optional<User> oldUser = getUserById(user.getId());
+        if (oldUser.isPresent()) {
+            int index = Storage.userList.indexOf(oldUser.get());
+            Storage.userList.set(index, user);
+        }
     }
 }

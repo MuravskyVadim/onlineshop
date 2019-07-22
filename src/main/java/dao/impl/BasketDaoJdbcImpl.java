@@ -18,18 +18,26 @@ import java.util.Optional;
 public class BasketDaoJdbcImpl implements BasketDao {
 
     private static final Logger logger = Logger.getLogger(BasketDaoJdbcImpl.class);
+    private static final String ADD_PRODUCT = "INSERT INTO basket(product_id, product_name, " +
+                    "product_description, product_price, user_id) " +
+                    "VALUES('%s', '%s', '%s', '%s', '%s')";
+    private static final String GET_ALL_PRODUCTS = "SELECT * FROM basket WHERE user_id = ";
+    private static final String GET_PRODUCT_BY_ID = "SELECT FROM basket WHERE id = ";
+    private static final String REMOVE_PRODUCT = "DELETE FROM basket " +
+            "WHERE product_id = %d AND user_id = %d";
+    private static final String CLEAR_BASKET = "DELETE FROM basket WHERE user_id = ";
 
     @Override
     public void addProduct(Product product, User user) {
-        String sql = String.format(
-                "INSERT INTO basket(product_id, product_name, " +
-                        "product_description, product_price, user_id) " +
-                "VALUES('%s', '%s', '%s', '%s', '%s')",
-                        product.getId(), product.getName(), product.getDescription(),
-                        product.getPrice(), user.getId());
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
-            statement.execute(sql);
+             statement.execute(String.format(
+                     ADD_PRODUCT,
+                     product.getId(),
+                     product.getName(),
+                     product.getDescription(),
+                     product.getPrice(),
+                     user.getId()));
             logger.info(product + "added to basket");
         } catch (SQLException e) {
             logger.error("SQl exception " + e.getMessage());
@@ -39,10 +47,9 @@ public class BasketDaoJdbcImpl implements BasketDao {
     @Override
     public List<Product> getAllProducts(User user) {
         List<Product> productList = new ArrayList<>();
-        String sql = "SELECT * FROM basket WHERE user_id = " + user.getId();
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+             ResultSet resultSet = statement.executeQuery(GET_ALL_PRODUCTS + user.getId())) {
             while (resultSet.next()) {
                 productList.add(new Product(
                         resultSet.getLong("product_id"),
@@ -59,10 +66,9 @@ public class BasketDaoJdbcImpl implements BasketDao {
 
     @Override
     public Optional<Product> getProductById(Long id) {
-        String sql = "SELECT FROM basket WHERE id = " + id;
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery(GET_PRODUCT_BY_ID + id);
             if (resultSet.next()) {
                 return Optional.of(new Product(
                         resultSet.getLong("id"),
@@ -78,10 +84,9 @@ public class BasketDaoJdbcImpl implements BasketDao {
 
     @Override
     public void removeProduct(Product product, User user) {
-        String sql = "DELETE FROM basket WHERE product_id = " + product.getId() +
-                     " AND user_id = " + user.getId() + ";";
         try (Connection connection = DBConnection.getConnection();){
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                            String.format(REMOVE_PRODUCT, product.getId(), user.getId()));
             preparedStatement.execute();
             logger.info(product + " removed from basket successful");
         } catch (SQLException e) {
@@ -91,9 +96,9 @@ public class BasketDaoJdbcImpl implements BasketDao {
 
     @Override
     public void clear(User user) {
-        String sql = "DELETE FROM basket WHERE user_id = "+ user.getId() + ";";
         try (Connection connection = DBConnection.getConnection();){
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    CLEAR_BASKET + user.getId());
             preparedStatement.execute();
             logger.info("Basket of user " + user.getId() + " is cleared");
         } catch (SQLException e) {

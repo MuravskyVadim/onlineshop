@@ -32,13 +32,13 @@ public class ConfirmCodeServlet extends HttpServlet {
             String sendCode = (String) request.getSession().getAttribute("sendCode");
             if (userCode.equals(sendCode) && Objects.nonNull(order) && Objects.nonNull(user)) {
                 Optional<Long> orderId = orderService.addOrder(order);
-                if(orderId.isPresent()) {
+                if (orderId.isPresent()) {
                     request.setAttribute("message",
                             "Order #" + orderId.get() + " successfully placed");
                     basketService.clear(user);
                     request.getRequestDispatcher("/code.jsp").forward(request, response);
-                }else {
-                    request.setAttribute("message","Such order not exist");
+                } else {
+                    request.setAttribute("message", "Such order not exist");
                     request.getRequestDispatcher("/code.jsp").forward(request, response);
                 }
             } else {

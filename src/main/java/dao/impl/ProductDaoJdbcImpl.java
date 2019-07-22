@@ -17,15 +17,23 @@ import java.util.Optional;
 public class ProductDaoJdbcImpl implements ProductDao {
 
     private static final Logger logger = Logger.getLogger(ProductDaoJdbcImpl.class);
+    private static final String ADD_PRODUCT = "INSERT INTO products(name, description, price) " +
+            "VALUES('%s', '%s', '%s')";
+    private static final String GET_ALL_PRODUCTS = "SELECT * FROM products";
+    private static final String GET_PRODUCT_BY_ID = "SELECT * FROM products WHERE id = ";
+    private static final String REMOVE_PRODUCT = "DELETE FROM products WHERE id = ";
+    private static final String UPDATE_PRODUCT = "UPDATE products " +
+            "SET name = '%s', description = '%s', price = '%s' WHERE id = %d;";
 
     @Override
     public void addProduct(Product product) {
         Connection connection = DBConnection.getConnection();
         try (Statement statement = connection.createStatement()) {
-            String sql = String.format("INSERT INTO products(name, description, price) " +
-                            "VALUES('%s', '%s', '%s')",
-                            product.getName(), product.getDescription(), product.getPrice());
-            statement.execute(sql);
+            statement.execute(String.format(
+                    ADD_PRODUCT,
+                    product.getName(),
+                    product.getDescription(),
+                    product.getPrice()));
             logger.info(product + " was added to db");
         } catch (SQLException e) {
             logger.error("SQl exception " + e.getMessage());
@@ -37,7 +45,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
         List<Product> productList = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM products")) {
+             ResultSet resultSet = statement.executeQuery(GET_ALL_PRODUCTS)) {
             while (resultSet.next()) {
                 productList.add(new Product(
                         resultSet.getLong("id"),
@@ -56,8 +64,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
     public Optional<Product> getProductById(Long id) {
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
-             ResultSet resultSet = statement.executeQuery(
-                    "SELECT * FROM products WHERE id = " + id);
+             ResultSet resultSet = statement.executeQuery(GET_PRODUCT_BY_ID + id);
             if (resultSet.next()) {
                 return Optional.of(new Product(
                         resultSet.getLong("id"),
@@ -75,7 +82,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
     public void removeProduct(Product product) {
         try (Connection connection = DBConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "DELETE FROM products WHERE id = " + product.getId());
+                    REMOVE_PRODUCT + product.getId());
             preparedStatement.execute();
             logger.info(product + " removed from db");
         } catch (NullPointerException | SQLException e) {
@@ -85,12 +92,14 @@ public class ProductDaoJdbcImpl implements ProductDao {
 
     @Override
     public void updateProduct(Product product) {
-        try (Connection connection = DBConnection.getConnection();) {
-            String sql = String.format("UPDATE products " +
-                            "SET name = '%s', description = '%s', price = '%s' WHERE id = %d;",
-                            product.getName(), product.getDescription(),
-                            product.getPrice(), product.getId());
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = DBConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    String.format(
+                            UPDATE_PRODUCT,
+                            product.getName(),
+                            product.getDescription(),
+                            product.getPrice(),
+                            product.getId()));
             preparedStatement.executeUpdate();
             logger.info(product.getId() + " was edited");
         } catch (NullPointerException | SQLException e) {
