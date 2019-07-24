@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,12 +27,13 @@ public class ProductDaoJdbcImpl implements ProductDao {
     @Override
     public void addProduct(Product product) {
         Connection connection = DBConnection.getConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(String.format(
-                    ADD_PRODUCT,
-                    product.getName(),
-                    product.getDescription(),
-                    product.getPrice()));
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                String.format(
+                        ADD_PRODUCT,
+                        product.getName(),
+                        product.getDescription(),
+                        product.getPrice()))) {
+            preparedStatement.execute();
             logger.info(product + " was added to db");
         } catch (SQLException e) {
             logger.error("SQl exception " + e.getMessage());
@@ -44,8 +44,8 @@ public class ProductDaoJdbcImpl implements ProductDao {
     public List<Product> getAllProducts() {
         List<Product> productList = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(GET_ALL_PRODUCTS)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_PRODUCTS);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 productList.add(new Product(
                         resultSet.getLong("id"),
@@ -63,8 +63,9 @@ public class ProductDaoJdbcImpl implements ProductDao {
     @Override
     public Optional<Product> getProductById(Long id) {
         try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement()) {
-             ResultSet resultSet = statement.executeQuery(GET_PRODUCT_BY_ID + id);
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement(GET_PRODUCT_BY_ID + id);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
                 return Optional.of(new Product(
                         resultSet.getLong("id"),
@@ -80,9 +81,9 @@ public class ProductDaoJdbcImpl implements ProductDao {
 
     @Override
     public void removeProduct(Product product) {
-        try (Connection connection = DBConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    REMOVE_PRODUCT + product.getId());
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     REMOVE_PRODUCT + product.getId())) {
             preparedStatement.execute();
             logger.info(product + " removed from db");
         } catch (NullPointerException | SQLException e) {

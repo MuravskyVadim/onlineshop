@@ -7,8 +7,9 @@ import org.apache.log4j.Logger;
 import utils.Code;
 import utils.DBConnection;
 
-import java.sql.SQLException;
+
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -23,6 +24,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
             "VALUES(%d, '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
     private static final String GET_ORDER_BY_ID = "SELECT * FROM orders INNER JOIN users " +
             "ON orders.user_id = users.id WHERE orders.id = ";
+
     @Override
     public Optional<Long> addOrder(Order order) {
         try (Connection connection = DBConnection.getConnection();
@@ -40,7 +42,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
                      Statement.RETURN_GENERATED_KEYS)) {
             statement.execute();
             ResultSet resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 Optional<Long> orderId = Optional.of(resultSet.getLong(1));
                 logger.info(orderId.get() + " added to orders");
                 return orderId;
@@ -54,8 +56,9 @@ public class OrderDaoJdbcImpl implements OrderDao {
     @Override
     public Optional<Order> getOrderById(Long id) {
         try (Connection connection = DBConnection.getConnection();
-                Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(GET_ORDER_BY_ID + id);
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement(GET_ORDER_BY_ID + id);
+             ResultSet resultSet = preparedStatement.executeQuery();) {
             if (resultSet.next()) {
                 Code code = new Code();
                 code.setValue(resultSet.getString("code_value"));
