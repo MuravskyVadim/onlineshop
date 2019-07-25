@@ -21,27 +21,25 @@ public class OrderDaoJdbcImpl implements OrderDao {
     private static final String ADD_ORDER = "INSERT INTO orders(" +
             "user_id, code_value, first_name, last_name, city, " +
             "street, house_number, phone_number) " +
-            "VALUES(%d, '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+            "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String GET_ORDER_BY_ID = "SELECT * FROM orders INNER JOIN users " +
             "ON orders.user_id = users.id WHERE orders.id = ";
 
     @Override
     public Optional<Long> addOrder(Order order) {
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     String.format(
-                             ADD_ORDER,
-                             order.getUser().getId(),
-                             order.getUser().getCode().getValue(),
-                             order.getFirstName(),
-                             order.getLastName(),
-                             order.getCity(),
-                             order.getStreet(),
-                             order.getHouseNumber(),
-                             order.getPhoneNumber()),
-                     Statement.RETURN_GENERATED_KEYS)) {
-            statement.execute();
-            ResultSet resultSet = statement.getGeneratedKeys();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement(ADD_ORDER, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, String.valueOf(order.getUser().getId()));
+            preparedStatement.setString(2, String.valueOf(order.getUser().getCode().getValue()));
+            preparedStatement.setString(3, order.getFirstName());
+            preparedStatement.setString(4, order.getLastName());
+            preparedStatement.setString(5, order.getCity());
+            preparedStatement.setString(6, order.getStreet());
+            preparedStatement.setString(7, order.getHouseNumber());
+            preparedStatement.setString(8, order.getPhoneNumber());
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
                 Optional<Long> orderId = Optional.of(resultSet.getLong(1));
                 logger.info(orderId.get() + " added to orders");
@@ -56,9 +54,9 @@ public class OrderDaoJdbcImpl implements OrderDao {
     @Override
     public Optional<Order> getOrderById(Long id) {
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement preparedStatement =
-                     connection.prepareStatement(GET_ORDER_BY_ID + id);
-             ResultSet resultSet = preparedStatement.executeQuery();) {
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ORDER_BY_ID)) {
+            preparedStatement.setString(1, String.valueOf(id));
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Code code = new Code();
                 code.setValue(resultSet.getString("code_value"));
