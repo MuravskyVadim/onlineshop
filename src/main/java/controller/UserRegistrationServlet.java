@@ -1,9 +1,9 @@
 package controller;
 
-import utils.UserIdGenerator;
 import factory.UserServiceFactory;
 import model.User;
 import service.interfaces.UserService;
+import utils.HashGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +28,7 @@ public class UserRegistrationServlet extends HttpServlet {
                 && !repeatPassword.isEmpty() && !role.isEmpty()) {
             if (!userService.isUserExist(email)) {
                 if (password.equals(repeatPassword)) {
-                    User user = new User(UserIdGenerator.getId(), email, password, role);
+                    User user = new User(email, HashGenerator.getHash(password), role);
                     userService.addUser(user);
                     response.sendRedirect("/");
                 } else {

@@ -3,6 +3,7 @@ package controller;
 import factory.UserServiceFactory;
 import model.User;
 import service.interfaces.UserService;
+import utils.HashGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +27,8 @@ public class SignInServlet extends HttpServlet {
         if (!email.isEmpty() && !password.isEmpty()) {
             Optional<User> user = userService.getUserByEmail(email);
             if (user.isPresent()) {
-                if(user.get().getPassword().equals(password)) {
+                String hashPassword = HashGenerator.getHash(password);
+                if(user.get().getPassword().equals(hashPassword)) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user.get());
                     response.sendRedirect("/user/products");
