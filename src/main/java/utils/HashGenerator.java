@@ -1,22 +1,26 @@
 package utils;
 
+import org.apache.log4j.Logger;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class HashGenerator {
 
-    public static String hash(String password) {
+    private static final Logger logger = Logger.getLogger(HashGenerator.class);
+
+    public static String getHash(String password) {
         try {
             MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
             byte[] passBytes = password.getBytes();
             byte[] passHash = sha256.digest(passBytes);
-            StringBuilder sb = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
             for (byte hash : passHash) {
-                sb.append(Integer.toString((hash & 0xff) + 0x100, 16).substring(1));
+                stringBuilder.append(Integer.toString((hash & 0xff) + 0x100, 16).substring(1));
             }
-            return sb.toString();
+            return stringBuilder.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            logger.error("NoSuchAlgorithmException " + e);
         }
         return null;
     }

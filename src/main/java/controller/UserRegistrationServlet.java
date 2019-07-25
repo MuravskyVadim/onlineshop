@@ -28,7 +28,7 @@ public class UserRegistrationServlet extends HttpServlet {
                 && !repeatPassword.isEmpty() && !role.isEmpty()) {
             if (!userService.isUserExist(email)) {
                 if (password.equals(repeatPassword)) {
-                    User user = new User(email, HashGenerator.hash(password), role);
+                    User user = new User(email, HashGenerator.getHash(password), role);
                     userService.addUser(user);
                     response.sendRedirect("/");
                 } else {

@@ -27,7 +27,7 @@ public class SignInServlet extends HttpServlet {
         if (!email.isEmpty() && !password.isEmpty()) {
             Optional<User> user = userService.getUserByEmail(email);
             if (user.isPresent()) {
-                String hashPassword = HashGenerator.hash(password);
+                String hashPassword = HashGenerator.getHash(password);
                 if(user.get().getPassword().equals(hashPassword)) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user.get());

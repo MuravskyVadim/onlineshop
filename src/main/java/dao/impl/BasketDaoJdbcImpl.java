@@ -28,15 +28,15 @@ public class BasketDaoJdbcImpl implements BasketDao {
 
     @Override
     public void addProduct(Product product, User user) {
-        try (Connection connection = DBConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    String.format(
-                            ADD_PRODUCT,
-                            product.getId(),
-                            product.getName(),
-                            product.getDescription(),
-                            product.getPrice(),
-                            user.getId()));
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     String.format(
+                             ADD_PRODUCT,
+                             product.getId(),
+                             product.getName(),
+                             product.getDescription(),
+                             product.getPrice(),
+                             user.getId()))) {
             preparedStatement.execute();
             logger.info(product + "added to basket");
         } catch (SQLException e) {
