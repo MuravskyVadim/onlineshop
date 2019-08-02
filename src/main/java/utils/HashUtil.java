@@ -24,7 +24,7 @@ public class HashUtil {
         } catch (NoSuchAlgorithmException e) {
             logger.error("NoSuchAlgorithmException " + e);
         }
-        return null;
+        return password;
     }
 
     public static String getSalt() {
